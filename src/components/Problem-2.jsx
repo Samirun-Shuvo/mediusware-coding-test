@@ -52,6 +52,45 @@ const Problem2 = () => {
     setDetail(countryDetail);
   };
 
+  //handle search functionality
+//   const [filterByCountry, setFilterByCountry] = useState([]);
+  const [filterByContactNum, setFilterByContactNum] = useState([]);
+  const handleCountrySearch = (e) => {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[2];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+
+    // e.preventDefault();
+    // setFilterByCountry(
+    //   contacts?.results &&
+    //     contacts?.results.filter((i) =>
+    //       i.country.name.toLowerCase().includes(e.target.value.toLowerCase())
+    //     )
+    // );
+    // console.log(filterByCountry);
+  };
+  const handleContactSearch = (e) => {
+    e.preventDefault();
+    setFilterByContactNum(
+      usCountrys?.results &&
+        usCountrys?.results.filter((i) => i.phone.includes(e.target.value))
+    );
+    console.log(filterByContactNum);
+  };
+
   return (
     <div className="container">
       <div className="row justify-content-center mt-5">
@@ -112,8 +151,21 @@ const Problem2 = () => {
                 </button>
               </div>
               <div>
-              
-                <table className="table table-striped " id="myTable">
+                <div className="my-2">
+                  <div className="input-group mb-3">
+                    <input
+                    id="myInput"
+                      onChange={handleCountrySearch}
+                      type="text"
+                      className="form-control"
+                      placeholder="Search By Country Name..."
+                    />
+                    <span className="input-group-text" id="basic-addon2">
+                      Search
+                    </span>
+                  </div>
+                </div>
+                <table className="table table-striped" id="myTable">
                   <thead>
                     <tr>
                       <th scope="col">Id</th>
@@ -136,6 +188,7 @@ const Problem2 = () => {
                             <td>{contact?.country?.name}</td>
                           </tr>
                         ))
+                   
                       : contacts?.results?.map((contact) => (
                           <tr
                             data-bs-toggle="modal"
@@ -217,7 +270,20 @@ const Problem2 = () => {
                 </button>
               </div>
               <div>
-                <table className="table table-striped ">
+                <div className="my-2">
+                  <div className="input-group mb-3">
+                    <input
+                      onChange={handleContactSearch}
+                      type="text"
+                      className="form-control"
+                      placeholder="Search By Contact Number"
+                    />
+                    <span className="input-group-text" id="basic-addon2">
+                      Search
+                    </span>
+                  </div>
+                </div>
+                <table className="table table-striped">
                   <thead>
                     <tr>
                       <th scope="col">Id</th>
@@ -240,6 +306,7 @@ const Problem2 = () => {
                             <td>{usCountry?.country?.name}</td>
                           </tr>
                         ))
+                 
                       : usCountrys?.results?.map((usCountry) => (
                           <tr
                             data-bs-toggle="modal"
